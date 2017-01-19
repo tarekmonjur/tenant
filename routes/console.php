@@ -2,27 +2,18 @@
 
 use Illuminate\Foundation\Inspiring;
 
-/*
-|--------------------------------------------------------------------------
-| Console Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of your Closure based console
-| commands. Each Closure is bound to a command instance allowing a
-| simple approach to interacting with each command's IO methods.
-|
-*/
-
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
 
 
 Artisan::command('test', function () {
-    echo "test";
+    echo "echo test from COMMAND";
 })->describe('Display an inspiring quote');
 
-
+Artisan::command('testSakib', function () {
+    echo "Sakib COMMAND";
+})->describe('Display an inspiring quote');
 
 // Create migration command for own directory
 Artisan::command('migrate:own {directory}',function($directory){

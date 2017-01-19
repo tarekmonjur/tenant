@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Setup;
-
 
 // model class
 use App\Models\Setup\Config;
