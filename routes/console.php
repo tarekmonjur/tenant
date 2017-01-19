@@ -15,6 +15,11 @@ Artisan::command('testSakib', function () {
     echo "Sakib COMMAND";
 })->describe('Display an inspiring quote');
 
+Artisan::command('make:service {name}', function ($name) {
+    
+})->describe('Display an inspiring quote');
+
+
 // Create migration command for own directory
 Artisan::command('migrate:own {directory}',function($directory){
 	Artisan::call('migrate',['--path'=>'/database/migrations/'.$directory]);
