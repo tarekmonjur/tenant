@@ -14,13 +14,13 @@ class CreateSetupUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('config_id')->unsigned();
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
-
-            $table->foreign('config_id')->references('id')->on('configs')->onDelete('restrict');
         });
     }
 
@@ -31,6 +31,6 @@ class CreateSetupUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        //
     }
 }
