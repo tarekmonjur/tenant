@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Setup\UserEmails;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
@@ -35,6 +37,8 @@ trait AuthenticatesUsers
     public function login(Request $request)
     {
         $this->validateLogin($request);
+
+        $this->databaseConnectByEmail($request->email);
         
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -44,7 +48,7 @@ trait AuthenticatesUsers
 
             return $this->sendLockoutResponse($request);
         }
-
+        dd($this->guard());
         if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
@@ -55,6 +59,18 @@ trait AuthenticatesUsers
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+
+    public function databaseConnectByEmail($email){
+        $user = UserEmails::where('email',$email)->join('configs','configs.id','=','user_emails.config_id')->first();
+
+        if(count($user)){
+            Artisan::call("db:connect", ['database'=> $user->database_name]);
+            // echo \Config::get('database.default');
+            // echo \Config::get('database.connections.mysql_tenant.database');
+            // echo  $user->database_name;exit;
+        }
     }
 
     /**
@@ -171,6 +187,6 @@ trait AuthenticatesUsers
      */
     protected function guard()
     {
-        return Auth::guard();
+        return Auth::guard('hrms');
     }
 }
