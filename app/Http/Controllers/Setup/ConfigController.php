@@ -46,7 +46,7 @@ class ConfigController extends Controller
 	    			'config_id' => $config->id,
 	    			'email' => $request->email,
 	    		]);
-	    	
+	   	
 			DB::statement('CREATE DATABASE IF NOT EXISTS '.$database_name);
 			
 	    	Artisan::call("db:connect", ['database'=> $database_name]);

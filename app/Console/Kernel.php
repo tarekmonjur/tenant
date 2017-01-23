@@ -5,7 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
-use App;
+use App\Console\Commands\ServiceCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        App\Console\commands\ServiceCommand::class
+        ServiceCommand::class
     ];
 
     /**
