@@ -1,32 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+// use Illuminate\Foundation\Inspiring;
 
-/*
-|--------------------------------------------------------------------------
-| Console Routes
-|--------------------------------------------------------------------------
-|
-| This file is where you may define all of your Closure based console
-| commands. Each Closure is bound to a command instance allowing a
-| simple approach to interacting with each command's IO methods.
-|
-*/
-
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
-
-
-Artisan::command('test', function () {
-    echo "test";
-})->describe('Display an inspiring quote');
-
-
-
-Artisan::command('make:service {name}', function ($name) {
-    
-})->describe('Display an inspiring quote');
+// Artisan::command('inspire', function () {
+//     $this->comment(Inspiring::quote());
+// })->describe('Display an inspiring quote');
 
 
 // Create migration command for own directory
@@ -59,7 +37,7 @@ Artisan::command('migrate:tenant:rollback',function(){
 // Create database connection command
 Artisan::command('db:connect {database?}',function($database=null){
 	$connection = (!empty($database))? 'mysql_tenant' : env('DB_CONNECTION', 'mysql');
-	$database = (!empty($database))? $database : env('DB_DATABASE', 'forge');
+	$database = (!empty($database))? $database : env('DB_DATABASE', 'tenant_main');
 
 	\Config::set('database.default',$connection);
 	\Config::set('database.connections.'.$connection.'.database',$database);

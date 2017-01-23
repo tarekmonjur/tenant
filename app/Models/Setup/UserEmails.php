@@ -4,11 +4,11 @@ namespace App\Models\Setup;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Config extends Model
+class UserEmails extends Model
 {
-
-    protected $fillable = [
-    	'company_name','company_address','database_name','application_key'
-    ];
+    protected $table = "user_emails";
     
+    protected $fillable = [
+    	'config_id','email'
+    ];
 }
