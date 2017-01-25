@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Services;
-
-use App\Models\Setup\UserEmails;
+namespace App\Services\setup;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
-use Illuminate\Support\Facades\Artisan;
-
 trait AuthenticatesUsers
 {
-	
 	use RedirectsUsers, ThrottlesLogins;
 
     /**
@@ -25,7 +21,8 @@ trait AuthenticatesUsers
      */
     public function showLoginForm()
     {
-        return view('auth.login');
+        Artisan::call("db:connect");
+        return view('setup.auth.login');
     }
 
     /**
@@ -37,10 +34,6 @@ trait AuthenticatesUsers
     public function login(Request $request)
     {
         $this->validateLogin($request);
-
-        if(!$this->databaseConnectByEmail($request->email)){
-            return redirect()->back()->withErrors(['email'=>'These credentials do not match our records.']);
-        }
         
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -61,21 +54,6 @@ trait AuthenticatesUsers
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
-    }
-
-
-    public function databaseConnectByEmail($email){
-        $user = UserEmails::where('email',$email)->join('configs','configs.id','=','user_emails.config_id')->first();
-
-        if(count($user)){
-            Artisan::call("db:connect", ['database'=> $user->database_name]);
-            return true;
-//             echo \Config::get('database.default');
-            // echo \Config::get('database.connections.mysql_tenant.database');
-            // echo  $user->database_name;exit;
-        }else{
-            return false;
-        }
     }
 
     /**
@@ -182,7 +160,7 @@ trait AuthenticatesUsers
 
         $request->session()->regenerate();
 
-        return redirect('/');
+        return redirect('/setup');
     }
 
     /**
@@ -192,6 +170,6 @@ trait AuthenticatesUsers
      */
     protected function guard()
     {
-        return Auth::guard('hrms');
+        return Auth::guard('setup');
     }
 }
