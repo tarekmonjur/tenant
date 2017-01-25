@@ -36,11 +36,13 @@ Artisan::command('migrate:tenant:rollback',function(){
 
 // Create database connection command
 Artisan::command('db:connect {database?}',function($database=null){
-	$connection = (!empty($database))? 'mysql_tenant' : env('DB_CONNECTION', 'mysql');
-	$database = (!empty($database))? $database : env('DB_DATABASE', 'tenant_main');
 
-	\Config::set('database.default',$connection);
-	\Config::set('database.connections.'.$connection.'.database',$database);
+	$connection = (!empty($database))? 'mysql_tenant' : 'mysql';
+	$database = (!empty($database))? $database : 'tenant';
+
+    \Config::set('database.default',$connection);
+    \Config::set('database.connections.'.$connection.'.database',$database);
+    \DB::reconnect();
 
 	$this->info('Database connection success.');
 })->describe('Dynamically db connection set.');

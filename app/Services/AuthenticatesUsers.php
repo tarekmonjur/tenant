@@ -25,6 +25,7 @@ trait AuthenticatesUsers
      */
     public function showLoginForm()
     {
+        Artisan::call("db:connect");
         return view('auth.login');
     }
 
@@ -41,6 +42,7 @@ trait AuthenticatesUsers
         if(!$this->databaseConnectByEmail($request->email)){
             return redirect()->back()->withErrors(['email'=>'These credentials do not match our records.']);
         }
+
         
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -51,7 +53,9 @@ trait AuthenticatesUsers
             return $this->sendLockoutResponse($request);
         }
 
+
         if ($this->attemptLogin($request)) {
+
             return $this->sendLoginResponse($request);
         }
 
@@ -68,11 +72,10 @@ trait AuthenticatesUsers
         $user = UserEmails::where('email',$email)->join('configs','configs.id','=','user_emails.config_id')->first();
 
         if(count($user)){
+            Session(['database'=>$user->database_name]);
             Artisan::call("db:connect", ['database'=> $user->database_name]);
+//            echo \DB::connection()->getDatabaseName();
             return true;
-//             echo \Config::get('database.default');
-            // echo \Config::get('database.connections.mysql_tenant.database');
-            // echo  $user->database_name;exit;
         }else{
             return false;
         }
@@ -140,7 +143,7 @@ trait AuthenticatesUsers
      */
     protected function authenticated(Request $request, $user)
     {
-        //
+        Artisan::call("db:connect", ['database'=> Session('database')]);
     }
 
     /**
@@ -176,6 +179,10 @@ trait AuthenticatesUsers
      */
     public function logout(Request $request)
     {
+        if(Session('database')){
+            Artisan::call("db:connect", ['database'=> Session('database')]);
+        }
+
         $this->guard()->logout();
 
         $request->session()->flush();
