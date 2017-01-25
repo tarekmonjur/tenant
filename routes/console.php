@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+// use Illuminate\Foundation\Inspiring;
 
+<<<<<<< HEAD
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
@@ -18,6 +19,11 @@ Artisan::command('testSakib', function () {
 Artisan::command('make:service {name}', function ($name) {
     
 })->describe('Display an inspiring quote');
+=======
+// Artisan::command('inspire', function () {
+//     $this->comment(Inspiring::quote());
+// })->describe('Display an inspiring quote');
+>>>>>>> 7a4c395173c8f2bd3a9e9638029bb8529e3d6674
 
 
 // Create migration command for own directory
@@ -50,7 +56,7 @@ Artisan::command('migrate:tenant:rollback',function(){
 // Create database connection command
 Artisan::command('db:connect {database?}',function($database=null){
 	$connection = (!empty($database))? 'mysql_tenant' : env('DB_CONNECTION', 'mysql');
-	$database = (!empty($database))? $database : env('DB_DATABASE', 'forge');
+	$database = (!empty($database))? $database : env('DB_DATABASE', 'tenant_main');
 
 	\Config::set('database.default',$connection);
 	\Config::set('database.connections.'.$connection.'.database',$database);

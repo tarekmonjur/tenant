@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>HRMS</title>
 
     <!-- Styles -->
     <link href="{{asset('/css/app.css')}}" rel="stylesheet">
@@ -35,7 +35,7 @@
 
                 
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        HRMS
                     </a>
                 </div>
 
@@ -46,15 +46,20 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
+<<<<<<< HEAD:resources/views/layouts/app.blade.php
                     
                         @if (Auth::guest())
                             <li><a href="{{ url('/login') }}">Login</a></li>
                             <li><a href="{{ url('/') }}">Config</a></li>
                         @else
                            <li><a href="{{ url('/register') }}">Register</a></li>
+=======
+                        <!-- Authentication Links -->
+                         @if (!Auth::guest())
+>>>>>>> 7a4c395173c8f2bd3a9e9638029bb8529e3d6674:resources/views/layouts/hrms.blade.php
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ Auth::user()->first_name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">

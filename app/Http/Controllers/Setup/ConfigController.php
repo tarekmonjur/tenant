@@ -2,9 +2,10 @@
 namespace App\Http\Controllers\Setup;
 
 // model class
+use App\Models\User;
+use App\Models\Setup\UserEmails;
 use App\Models\Setup\Config;
-use App\Models\Setup\User;
-use App\Models\User as Users;
+use App\Models\Setup\User as SetupUser;
 
 // form validation class
 use App\Http\Requests\ConfigRequest;
@@ -18,13 +19,13 @@ use Illuminate\Support\Facades\Artisan;
 class ConfigController extends Controller
 {
     public function __construct(){
-
+    	$this->middleware('auth:setup');
     }
 
 
     public function index(){
     	Artisan::call('db:connect');
-    	return view('config');
+    	return view('setup.config');
     }
 
 
@@ -42,17 +43,25 @@ class ConfigController extends Controller
 	    			'application_key' => $request->application_key,
 	    		]);
 
-	    	User::create([
+	    	UserEmails::create([
 	    			'config_id' => $config->id,
 	    			'email' => $request->email,
 	    		]);
-	   	
+
+
+	    	SetupUser::create([
+	    			'first_name' => $request->first_name,
+	    			'last_name' => $request->last_name,
+	    			'email' => $request->email,
+	    			'password' => bcrypt($request->password),
+	    		]);
+
 			DB::statement('CREATE DATABASE IF NOT EXISTS '.$database_name);
 			
 	    	Artisan::call("db:connect", ['database'=> $database_name]);
 	    	Artisan::call("migrate:tenant");
 
-	    	Users::create([
+	    	User::create([
 	    			'first_name' => $request->first_name,
 	    			'last_name' => $request->last_name,
 	    			'email' => $request->email,
