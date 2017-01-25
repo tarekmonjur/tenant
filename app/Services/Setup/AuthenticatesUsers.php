@@ -154,6 +154,9 @@ trait AuthenticatesUsers
      */
     public function logout(Request $request)
     {
+
+        Artisan::call("db:connect");
+
         $this->guard()->logout();
 
         $request->session()->flush();

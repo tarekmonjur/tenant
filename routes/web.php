@@ -8,7 +8,7 @@ Route::group(['prefix'=>'/','namespace'=>'Auth'], function(){
 });
 
 /***************** ...HRMS Dashboard Routes... ******************/
-Route::group(['prefix'=>'','middleware'=>'auth'], function(){
+Route::group(['prefix'=>'/'], function(){
 	Route::get('/','DashboardController@index');
 });
 
